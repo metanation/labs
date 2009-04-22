@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs directory_title="Calendar About Nothing"
+    title="__UP_username__`s Calendar About Nothing"
+    description="Shows a user&apos;s open source contributions from Calendar About Nothing."
+    author="Aupajo"
+    author_email="pete@metanation.com"
+    height="60"
+    screenshot="http://labs.metanation.com/gadget-about-nothing/screenshot.gif"
+    thumbnail="http://labs.metanation.com/gadget-about-nothing/logo.gif">
+    <Require feature="dynamic-height"/>
+    <Require feature="analytics" /> 
+  </ModulePrefs>
+  <UserPref name="username" required="true" datatype="string" display_name="Account Name" />
+  <UserPref name="show_month_name" default_value="true" datatype="bool" display_name="Show Month Name" />
+  <UserPref name="show_streaks" default_value="true" datatype="bool" display_name="Show Streaks" />
+  <Content type="html">
+    <![CDATA[
+      
+      <style type="text/css">
+        
+        #content { 
+          font-size: 0.8em;
+          padding: 0.5em 0;
+        }
+        
+        h1 {
+          color: #4183c4;
+          font-size: 1.2em;
+          margin: 0;
+          text-transform: uppercase;
+          text-align: center;
+        }
+          
+        table {
+          border-collapse: collapse;
+          border-color: #bdcad8;
+          border-style: solid;
+          border-width: 2px 0;
+          color: #536880;
+          margin: 0.5em 0;
+          width: 100%;
+        }
+        
+          td, th {
+            text-align: center;
+            font-size: 0.8em;
+            padding: 0.3em 0;
+          }
+          
+          th {
+            border-bottom: 1px solid #bdcad8;
+            color: #4183c4;
+            text-transform: uppercase;
+          }
+        
+        .marked {
+          background: url('http://labs.metanation.com/gadget-about-nothing/mark.png') no-repeat center center;
+          text-indent: -9999px;
+        }
+        
+        .today {
+          font-weight: bold;
+          color: #008000;
+        }
+          
+        .outside_range {
+          color: #ccc;
+        }
+        
+        .streak {
+          color: #999;
+          font-size: 0.6em;
+          font-weight: bold;
+          text-align: center;
+          text-transform: uppercase;
+        }
+        
+          .streak .count {
+            color: #4183c4;
+            font-size: 2em;
+            font-weight: bold;
+            vertical-align: middle;
+          }
+          
+          .streak .type {
+            display: block;
+          }
+        
+        .current {
+          float: left;
+          margin-left: 1em;
+        }
+        
+        .longest {
+          float: right;
+          margin-right: 1em;
+        }
+        
+      </style>
+      
+      <div id="content">Loading&hellip;</div>
+      
+      <script type="text/javascript">
+        
+        // Extend Date
+        Date.prototype.getMonthName = function() {
+          var names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          return names[this.getMonth()];
+        }
+        
+        Date.dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        
+        Date.prototype.getDayName = function() {
+          return this.dayNames[this.getDay()];
+        }
+        
+        Date.prototype.getDaysInMonth = function() {
+          // If you deliberately overflow the days, you can check the overlap into the next month
+          return 32 - new Date(this.getYear(), this.getMonth(), 32).getDate();
+        }
+        
+        Date.prototype.getDaysInLastMonth = function() {
+          var lastMonth = new Date(this.getYear(), this.getMonth() - 1);
+          return lastMonth.getDaysInMonth();
+        }
+        
+        Date.prototype.isToday = function() {
+          var today = new Date();
+          return today.getFullYear() == this.getFullYear() && today.getMonth() == this.getMonth() && today.getDate() == this.getDate();
+        }
+        
+        // Helpers
+        function pluralize(num, word, pluralized_word) {
+          string = '<span class="count">' + num + "</span> ";
+          string += num == 1 ? word : (typeof pluralized_word == 'undefined' ? word + 's' : pluralized_word);
+          return string;
+        }
+    
+        function parseStreak(streak) {
+          return streak == null ? 0 : streak;
+        }
+        
+        // MonthCalendar Object
+        function MonthCalendar(mnth, yr) {
+          this.month = mnth ? mnth - 1 : new Date().getMonth();
+          this.year = yr ? yr : new Date().getFullYear();
+          this.day = 1;
+          this.date = new Date(this.year, this.month, this.day);
+          this.marks = new Array(this.date.getDaysInMonth());
+          
+          // Methods
+          this.markDate = function(dateString) {
+            var mark = dateString.split("-");
+            if(parseInt(mark[0], 10) == this.year && parseInt(mark[1], 10) - 1 == this.month) {
+              this.marks[parseInt(mark[2], 10)] = true;
+            }
+          }
+          
+          this.markDates = function(arrayOfDateStrings) {
+            for(var dateString in arrayOfDateStrings) {
+              this.markDate(arrayOfDateStrings[dateString]);
+            }
+          }
+          
+          this.getHTML = function() {
+            var html = "<table>";
+            
+            // Days of the week
+            html += "<tr>";
+            for(var dayName in Date.dayNames) {
+              html += "<th>" + Date.dayNames[dayName] + "</th>";
+            }
+            html += "</tr>";
+            
+            // Calendar
+            var offset = this.date.getDay();
+            var columns = Date.dayNames.length;
+            var rows = (this.marks.length + offset) / Date.dayNames.length;
+            var daysInMonth = this.date.getDaysInMonth();
+            var daysInLastMonth = this.date.getDaysInLastMonth();
+            
+            for(var i = 0; i < rows; i ++) {
+              html += "<tr>";
+              for(var j = 0; j < columns; j ++) {
+                var classes, day, index;
+                classes = [];
+                index = (i * columns) + j;
+                
+                // Calculate day
+                if(index < offset) {
+                  classes.push('outside_range');
+                  day = daysInLastMonth - offset + index + 1;
+                } else if(index - offset + 1 > daysInMonth) {
+                  classes.push('outside_range');
+                  day = index - daysInMonth - offset + 1;
+                } else {
+                  day = index - offset + 1;           
+                  if(this.marks[day] == true) {
+                    classes.push("marked");
+                  }
+                }
+                
+                if(new Date(this.year, this.month, day).isToday()) {
+                  classes.push("today");
+                }
+                
+                // Markup
+                html += "<td"
+                if(classes.length > 0) {
+                  html += ' class="' + classes.join(" ") + '"';
+                }
+                html += ">" + day + "</td>";
+              }
+              html += "</tr>"
+            }
+            
+            html += "</table>";
+            return html;
+          }
+          
+        }
+        
+        function makeJSONRequest() {
+          updateContent("Attempting to retrieve account information&hellip;");
+          
+          var prefs = new _IG_Prefs();
+        
+          var url = "http://calendaraboutnothing.com/~" + getUsername() + ".json";
+          _IG_FetchContent(url, response);
+          _IG_Analytics('UA-436998-2', '/legacy-gadget-about-nothing');
+         };
+        
+        function updateContent(html) {
+          document.getElementById('content').innerHTML = html;
+          _IG_AdjustIFrameHeight();
+        }
+        
+        function getUsername() {
+          var prefs = new _IG_Prefs();
+          var username = _esc(prefs.getString('username'));
+          if(username.charAt(0) == "~") {
+            username = username.substr(1);
+          }
+          return username;
+        }
+        
+        function response(responseText) {
+          
+          if(responseText == null) {
+            updateContent('No calendar information found for <b>' + getUsername() + '</b>.');
+          } else {
+            var jsondata = eval('(' + responseText + ')');
+            var prefs = new _IG_Prefs();
+            
+            // Generate Calendar
+            var calendar = new MonthCalendar();
+            calendar.markDates(jsondata.days);
+            
+            var html = "";
+            
+            if(prefs.getBool('show_month_name')) {
+              html += '<h1>' + calendar.date.getMonthName() + ' ' +  calendar.year + '</h1>';
+            }
+            
+            html += calendar.getHTML();
+            
+            if(prefs.getBool('show_streaks')) {
+              html += '<div class="current streak"><span class="type">Current Streak</span> ' +
+              pluralize(parseStreak(jsondata.current_streak), 'day') + '</div>';
+              html += '<div class="longest streak"><span class="type">Longest Streak</span> ' +
+              pluralize(parseStreak(jsondata.longest_streak), 'day') + '</div>';
+            }
+            
+            updateContent(html);
+            
+          }
+        }
+         
+         _IG_RegisterOnloadHandler(makeJSONRequest);
+         
+      </script>
+        
+    ]]>
+  </Content>
+</Module>

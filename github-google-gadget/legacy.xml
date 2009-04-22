@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs directory_title="GitHub Repositories"
+    title="__UP_username__`s GitHub Repositories"
+    description="Shows a GitHub user's repositories."
+    author="Aupajo"
+    author_email="pete@metanation.com"
+    height="60"
+    screenshot="http://labs.metanation.com/github-google-gadget/screenshot.gif"
+    thumbnail="http://labs.metanation.com/github-google-gadget/logo.gif">
+    <Require feature="dynamic-height"/>
+    <Require feature="analytics" /> 
+  </ModulePrefs>
+  <UserPref name="username" required="true" datatype="string" display_name="Account Name" />
+  <UserPref display_name="Show" name="display_limit" default_value="10" datatype="enum">
+   <EnumValue value="5" />
+   <EnumValue value="10" />
+   <EnumValue value="15" />
+   <EnumValue value="20" />
+   <EnumValue value="50" />
+  </UserPref> 
+  <Content type="html">
+    <![CDATA[
+      
+      <style type="text/css">
+        
+        a { text-decoration: none; }
+          
+          a:link, a:visited { color: #4183C4; }
+          
+          a:hover { text-decoration: underline; }
+       
+        
+        #content { 
+          font-size: 0.8em;
+          padding: 0.5em 0;
+        }
+        
+        #content a.repository {
+          background: #f0f0f0 url('http://github.com/images/icons/public.png') no-repeat 4px 50%;
+          border: 1px solid #d8d8d8;
+          display: block;
+          font-weight: bold;
+          margin-bottom: 2px;
+          padding: 4px 4px 4px 24px;
+        }
+          
+          #content a.repository:hover { text-decoration: underline; }
+       
+       #header {
+         color: #444;
+         padding: 0 0.5em 0.5em;
+       }
+        
+       #footer {
+         font-size: 0.9em;
+         margin-top: 0.5em;
+         text-align: right;
+       }
+      </style>
+      
+      <div id="content">Loading&hellip;</div>
+      
+      <script type="text/javascript">
+        
+        function makeJSONRequest() {
+          updateContent("Attempting to retrieve account information&hellip;");
+          
+          var prefs = new _IG_Prefs();
+        
+          var url = "http://github.com/api/v1/json/" + _esc(prefs.getString('username'));
+          _IG_FetchContent(url, response);
+          _IG_Analytics('UA-436998-2', '/legacy-github-google-gadget');
+         };
+        
+        function updateContent(html) {
+          document.getElementById('content').innerHTML = html;
+          _IG_AdjustIFrameHeight();
+        }
+        
+        function response(responseText) {
+          
+          if(responseText == null) {
+            updateContent('No public repositories found for <b>' + _esc(prefs.getString('username')) + '</b>.');
+          } else {
+            var jsondata = eval('(' + responseText + ')');
+            var prefs = new _IG_Prefs();
+            var limit = prefs.getInt('display_limit');
+            var repos = jsondata['user']['repositories'];
+        
+            var html = "";
+            
+            for(var i = 0; i < repos.slice(0, limit).length; i++) {
+              html += '<a href="' + repos[i]['url'] + '" target="_blank" class="repository">' + repos[i]['name'] + '</a>';
+            }
+            
+            html += '<div id="footer">';
+            html += '<a href="http://github.com/' + prefs.getString('username') + '">See All &raquo;</a>';
+            html += '</div>';
+        
+            updateContent(html);
+          }
+        }
+         
+         _IG_RegisterOnloadHandler(makeJSONRequest);
+         
+      </script>
+        
+    ]]>
+  </Content>
+</Module>
