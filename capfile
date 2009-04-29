@@ -1,0 +1,29 @@
+load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+
+default_run_options[:pty] = true
+
+set :application, 'labs'
+
+# Standard settings
+set :user, 'deploy'
+set :domain, 'metanation.com'
+set :repository,  "git@github.com:metanation/#{application}.git"
+set :scm, 'git'
+set :deploy_to, "/home/#{user}/#{application}"
+set :deploy_via, :remote_cache
+set :branch, 'master'
+set :git_shallow_clone, 1
+set :use_sudo, false
+
+# Debuggery
+# set :scm_verbose, true
+
+server domain, :app, :web, :db
+
+namespace :deploy do
+  
+  task :restart do
+    sudo "thin restart -C /etc/thin/#{application}.yml"
+  end
+  
+end
