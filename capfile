@@ -23,7 +23,7 @@ server domain, :app, :web, :db
 namespace :deploy do
   
   task :restart do
-    sudo "thin restart -C /etc/thin/#{application}.yml"
+    # Skip restart
   end
   
 end
