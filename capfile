@@ -3,6 +3,7 @@ load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 default_run_options[:pty] = true
 
 set :application, 'labs'
+set :branch, 'rex'
 
 # Standard settings
 set :user, 'deploy'
@@ -11,7 +12,6 @@ set :repository,  "git@github.com:metanation/#{application}.git"
 set :scm, 'git'
 set :deploy_to, "/home/#{user}/#{application}"
 set :deploy_via, :remote_cache
-set :branch, 'master'
 set :git_shallow_clone, 1
 set :use_sudo, false
 
