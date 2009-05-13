@@ -226,7 +226,7 @@
           
           var prefs = new _IG_Prefs();
         
-          var url = "http://calendaraboutnothing.com/~" + getUsername() + ".json";
+          var url = "http://calendaraboutnothing.com/~" + getUsername().toLowerCase() + ".json";
           _IG_FetchContent(url, response);
           _IG_Analytics('UA-436998-2', '/legacy-gadget-about-nothing');
          };
