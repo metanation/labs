@@ -3,7 +3,7 @@ load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 default_run_options[:pty] = true
 
 set :application, 'labs'
-set :branch, 'rex'
+set :branch, 'master'
 
 # Standard settings
 set :user, 'deploy'
