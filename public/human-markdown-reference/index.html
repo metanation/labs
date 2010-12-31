@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>MetaNation Labs</title>
+    <title>Human Markdown Reference</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style type="text/css">
       <!-- 
@@ -10,7 +10,7 @@
           color: #333;
           font: 10pt/1.6em Georgia, serif;
           margin: 1em auto;
-          width: 600px;
+          width: 740px;
         }
       
       
@@ -28,8 +28,10 @@
         
         a img {
           border-style: none;
+          float: right;
+          margin: 0 0 1em 1em;
         }
-
+        
         h1 {
           font-size: 1.8em;
         }
@@ -76,59 +78,81 @@
           font-style: italic;
           color: #666;
         }
-      
+        
+        #shameless {
+          border-top: 1px dashed #ccc;
+          font-size: 0.9em;
+          color: #999;
+          padding-top: 2em;
+          text-align: center;
+        }
+        
+          #shameless a {
+            color: #777;
+          }
+         
         #fork {
+          margin: 0;
           position: absolute;
           top: 0;
           left: 0;
         }
-
+        
       -->
     </style>
   </head>
   <body>
     
-    <h1>MetaNation Labs</h1>
-    
     <p>
-      While other projects may be being worked on, they won't appear here until they've reached a significant stage in their development.
+      <a href="http://labs.metanation.com">MetaNation Labs</a> &gt;
     </p>
     
-    <h2>Experimentation</h2>
+    <h1>Human Markdown Reference</h1>
+    
+    <a href="markdown-reference/index.html" onclick="window.open(this.href,'markdown_reference','height=400,width=600,scrollbars=1');return false;"><img src="images/screenshot_thumb.png" alt="Screenshot" title="" /></a>
+    
+    <p>
+      The Human Markdown Reference is a short, easy-to-understand HTML page you can include in any project that uses Markdown. It's not designed to be a complete reference, just a quick guide for the layman.
+    </p>
+    
+    <p>
+      It's perfect for including as a pop-up help window next to your textarea, and is extremely small (2.3KB gzipped).
+    </p>
+    
+    <p>
+      <strong>Example:</strong> <a href="markdown-reference/index.html" onclick="window.open(this.href,'markdown_reference','height=400,width=600,scrollbars=1');return false;">View the Markdown reference</a>
+    
+    <h2>Licence</h2>
+    
+    <p>
+      The Human Markdown Reference is released under the <a href="http://github.com/Aupajo/human-markdown-reference/tree/master/LICENCE">MIT License</a>.
+    </p>
+    
+    <h2>Download</h2>
     
     <ul>
-      <li><a href="http://tweetsnap.com">TweetSnap</a></li>
+      <li><a href="http://github.com/Aupajo/human-markdown-reference/tarball/master">Latest</a> <span class="note">(.tar.gz)</span></li>
+      <li><a href="http://github.com/Aupajo/human-markdown-reference/zipball/master">Latest</a> <span class="note">(.zip)</span></li>
     </ul>
     
-    <h2>Open Source Projects</h2>
+    <h2>Source</h2>
     
-    <ul>
-      <li>
-        <a href="human-markdown-reference">Human Markdown Reference</a>
-        &mdash; a simple Markdown reference you can include in your projects
-      </li>
-      <li>
-        <a href="human-textile-reference">Human Textile Reference</a>
-        &mdash; a simple Textile reference you can include in your projects
-      </li>
-      <li>
-        <a href="github-google-gadget">GitHub Google Gadget</a> 
-        &mdash; a Google gadget for listing your GitHub
-      </li>
-      <li>
-        <a href="gadget-about-nothing">Gadget About Nothing</a>
-        &mdash; a Google gadget for displaying your <a href="http://calendaraboutnothing.com/">Calendar About Nothing</a>
-      </li>
-      <li>
-        <a href="http://github.com/Aupajo/gistbot/tree/master">GistBot</a>
-        &mdash; an IRC bot written in Ruby for turning chat into <a href="http://gist.github.com/">gists</a>
-      </li>
-    </ul>
+    <p>
+      Fork your own from the <a href="http://github.com/Aupajo/human-markdown-reference/tree/master">GitHub repository</a>.
+    </p>
 
-    <a href="http://github.com/metanation"><img id="fork"
+    <a href="http://github.com/Aupajo/human-markdown-reference/tree/master"><img id="fork"
 src="http://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on
 GitHub" /></a>
 
+    
+    <code class="example">
+      git clone git://github.com/Aupajo/human-markdown-reference.git
+    </code>
+    
+    <p>
+      See also: the <a href="../human-textile-reference/">Human Textile Reference</a>.
+    </p>
     
     <script type="text/javascript">
       var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

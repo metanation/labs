@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Markdown Guide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/markdown-reference.css" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(window).ready(function() {
+        $('.section-name').each(function(i) {
+          if(i > 0){
+            toggleSection(i);
+          }
+  
+          $(this).click(function() {
+            toggleSection(i);
+          });
+        });
+      });
+
+      function toggleSection(i) {
+        $('.section').slice(i, i + 1).toggle();
+        $('.section-name').slice(i, i + 1).toggleClass('deselected');
+      }
+    </script>
+  </head>
+  <body>
+    
+    <h1 id="title">Markdown Guide</h1>
+    
+    <h2 class="section-name">Text</h2>
+    
+    <div class="section">
+      <table>
+        <tr>
+          <th>Markdown</th>
+          <th>Result</th>
+        </tr>
+        <tr>
+          <td>This text is *emphasised*.</td>
+          <td>This text is <em>emphasised</em>.</td>
+        </tr>
+        <tr class="alternate">
+          <td>This text is **bold**.</td>
+          <td>This text is <strong>bold<strong>.</td>
+        </tr>
+        <tr>
+          <td>
+            Here's a quote: <br/>
+            &gt; Excellent work, Kip!
+          </td>
+          <td>
+            Here's a quote:
+            <blockquote>Excellent work, Kip!</blockquote>
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <h2 class="section-name">Links and Images</h2>
+    
+    <div class="section">
+      <table>
+        <tr>
+          <td>Link to [Google](http://google.com)</td>
+          <td>Link to <a href="http://google.com" target="_blank">Google</a>.</td>
+        </tr>
+        <tr class="alternate">
+          <td>You should [email me](mailto:jane@example.com).</td>
+          <td>You should <a href="mailto:jane@example.com">email me</a>.</td>
+        </tr>
+        <tr>
+          <td>My email address is &lt;jane@example.com&gt;.</td>
+          <td>My email address is <a href="mailto:jane@example.com">jane@example.com</a>.</td>
+        </tr>
+        <tr class="alternate">
+          <td>![The 37signals logo](http://www.37signals.com/images/logo-37signals.png)</td>
+          <td><img src="http://www.37signals.com/images/logo-37signals.png" alt="The 37signals logo" /></td>
+        </tr>
+      </table>
+    </div>
+    
+    <h2 class="section-name">Headings</h2>
+    
+    <div class="section">
+      <table>
+        <tr>
+          <td># Large Heading</td>
+          <td><h1>Large Heading</h1></td>
+        </tr>
+        <tr class="alternate">
+          <td>## Medium Heading</td>
+          <td><h2>Medium Heading</h2></td>
+        </tr>
+        <tr>
+          <td>### Smaller Heading</td>
+          <td><h3>Smaller Heading</h3></td>
+        </tr>
+      </table>
+    </div>
+    
+    <h2 class="section-name">Lists</h2>
+    
+    <div class="section">
+      <table>
+        <tr>
+          <th>Markdown</th>
+          <th>Result</th>
+        </tr>
+        <tr>
+          <td>
+            * Milk<br />
+            * Bread<br />
+            * Cheese<br />
+            &nbsp;&nbsp;* Cheddar <span class="note">(note space before asterisk)</span><br />
+            &nbsp;&nbsp;* Camembert<br />
+            * Rice
+          </td>
+          <td>
+            <ul>
+              <li>Milk</li>
+              <li>Bread</li>
+              <li>Cheese
+                <ul>
+                  <li>Cheddar</li>
+                  <li>Camembert</li>
+                </ul>
+              </li>
+              <li>Rice</li>
+            </ul>
+          </td>
+        </tr>
+        <tr class="alternate">
+          <td>
+            1. Milk<br />
+            2. Bread<br />
+            3. Cheese<br />
+            &nbsp;&nbsp;1. Cheddar <span class="note">(note space before number)</span><br />
+            &nbsp;&nbsp;2. Camembert<br />
+            4. Rice
+          </td>
+          <td>
+            <ol>
+              <li>Milk</li>
+              <li>Bread</li>
+              <li>Cheese
+                <ol>
+                  <li>Cheddar</li>
+                  <li>Camembert</li>
+                </ol>
+              </li>
+              <li>Rice</li>
+            </ol>
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <h2 class="section-name">Special</h2>
+    
+    <div class="section">
+      <table>
+        <tr>
+          <th>Markdown</th>
+          <th>Result</th>
+        </tr>
+        <tr>
+          <td>
+            A sentence, followed by a rule.<br />
+            * * *<br />
+            Another sentence.
+          </td>
+          <td>
+            A sentence, followed by a rule.<br />
+            <hr />
+            Another sentence.
+          </td>
+        </tr>
+        <tr class="alternate">
+          <td>Two \*literal asterisks\*, not to be confused with *emphasis*.</td>
+          <td>Two *literal asterisks*, not to be confused with <em>emphasis</em>.</td>
+        </tr>
+      </table>
+    </div>
+    
+  </body>
+</html>
